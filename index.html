@@ -184,32 +184,34 @@ nameInput.addEventListener("keyup", e=>{
 // No button avoidance
 function moveNo(){
   escapes++;
-  chance -= 15;
-  bar.style.width = Math.max(chance,0)+"%";
 
-  noSize -= .08;
+  // Shrinks slightly every time
+  noSize = Math.max(noSize - 0.05, 0.4);
   no.style.transform = `scale(${noSize})`;
 
-  const x = Math.random()*(innerWidth-100);
-  const y = Math.random()*(innerHeight-100);
-  no.style.left = x+"px";
-  no.style.top = y+"px";
+  const padding = 30;
+  const x = Math.random() * (innerWidth - no.offsetWidth - padding);
+  const y = Math.random() * (innerHeight - no.offsetHeight - padding);
 
-  navigator.vibrate?.(40);
+  no.style.left = x + "px";
+  no.style.top = y + "px";
 
-  if(escapes > 6){
-    no.innerText = "Yes 💖";
-    no.onclick = yes.click;
-    no.style.background = "#e63946";
-  }
+  navigator.vibrate?.(30);
 }
 
+// Forever shy
 no.addEventListener("mouseenter", moveNo);
+no.addEventListener("mousemove", moveNo);
 no.addEventListener("touchstart", moveNo);
-document.addEventListener("mousemove", e=>{
+
+// Runs away when cursor gets close
+document.addEventListener("mousemove", e => {
   const r = no.getBoundingClientRect();
-  const d = Math.hypot(e.clientX-(r.left+r.width/2), e.clientY-(r.top+r.height/2));
-  if(d < 120) moveNo();
+  const d = Math.hypot(
+    e.clientX - (r.left + r.width / 2),
+    e.clientY - (r.top + r.height / 2)
+  );
+  if (d < 120) moveNo();
 });
 
 // Yes clicked
@@ -278,3 +280,4 @@ function launchFireworks(){
 
 </body>
 </html>
+
