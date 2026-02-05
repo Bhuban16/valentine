@@ -170,16 +170,31 @@ let chance = 100;
 let escapes = 0;
 
 // Name submit
-nameInput.addEventListener("keyup", e=>{
-  if(e.key==="Enter" && nameInput.value.trim()){
-    question.innerText = `${nameInput.value}, will you be my Valentine? 💕`;
-    question.style.display="block";
-    yes.style.display="inline-block";
-    no.style.display="inline-block";
-    progress.style.display="block";
-    nameInput.style.display="none";
-  }
+const enterBtn = document.getElementById("enterBtn");
+
+function submitName() {
+  const name = nameInput.value.trim();
+  if (!name) return;
+
+  question.innerText = `${name}, will you be my Valentine? 💕`;
+  question.style.display = "block";
+
+  yes.style.display = "inline-block";
+  no.style.display = "inline-block";
+  progress.style.display = "block";
+
+  nameInput.style.display = "none";
+  enterBtn.style.display = "none";
+}
+
+// Click button
+enterBtn.addEventListener("click", submitName);
+
+// Press Enter key
+nameInput.addEventListener("keyup", e => {
+  if (e.key === "Enter") submitName();
 });
+
 
 // No button avoidance
 function moveNo(){
@@ -280,5 +295,6 @@ function launchFireworks(){
 
 </body>
 </html>
+
 
 
